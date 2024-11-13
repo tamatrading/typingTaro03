@@ -36,6 +36,10 @@ const TypingGame: React.FC = () => {
   const audioContextRef = useRef<AudioContext | null>(null);
   const finalScoreRef = useRef<number>(0);
   const previousHighScoreRef = useRef<number>(0);
+ 
+  useEffect(() => {
+    finalScoreRef.current = score;
+  }, [score]);
 
   const stageBackgrounds = {
     1: 'from-slate-600 to-slate-800',
@@ -276,7 +280,6 @@ const TypingGame: React.FC = () => {
   );
 
   const saveHighScoreToStorage = useCallback((score: number) => {
-    console.log('score:', score);
     if (score >= previousHighScoreRef.current) {
       localStorage.setItem('typingGameHighScore', score.toString());
     }
@@ -286,18 +289,21 @@ const TypingGame: React.FC = () => {
     setGameState('gameover');
     setCurrentWord(null);
     updateHighScore(score);
+    console.log('gameover score:', finalScoreRef.current);
     saveHighScoreToStorage(score); // ここでハイスコアを保存
     playGameClearSound();
   }, [playGameClearSound, score, updateHighScore, saveHighScoreToStorage]);
 
   const checkStageClear = useCallback(() => {
     if (questionCount >= 19) {
-      if (stage === 10) {
+      if (stage === 2) {
         setGameState('clear');
         updateHighScore(score);
+        console.log('all clear score:', finalScoreRef.current);
         saveHighScoreToStorage(score); // ここでハイスコアを保存
         playGameClearSound();
       } else {
+        console.log('stage clear score:', finalScoreRef.current);
         setGameState('stageClear');
         playStageClearSound();
       }
@@ -315,6 +321,7 @@ const TypingGame: React.FC = () => {
   ]);
 
   const nextStage = useCallback(() => {
+    console.log('next 1 score:', finalScoreRef.current);
     setIsTransitioning(true);
     setTimeout(() => {
       setStage((prev) => prev + 1);
@@ -324,6 +331,7 @@ const TypingGame: React.FC = () => {
       setCurrentWord(null);
       setIsTransitioning(false);
     }, 500);
+    console.log('next 2 score:', finalScoreRef.current);
   }, []);
 
   const createNewWord = useCallback(() => {
