@@ -36,7 +36,7 @@ const TypingGame: React.FC = () => {
   const audioContextRef = useRef<AudioContext | null>(null);
   const finalScoreRef = useRef<number>(0);
   const previousHighScoreRef = useRef<number>(0);
- 
+
   useEffect(() => {
     finalScoreRef.current = score;
   }, [score]);
@@ -134,7 +134,7 @@ const TypingGame: React.FC = () => {
     },
     [isMuted]
   );
-
+ 
   const playTypeSound = useCallback(
     () => playSound(800, 'square', 0.05, 0.1),
     [playSound]
@@ -289,7 +289,6 @@ const TypingGame: React.FC = () => {
     setGameState('gameover');
     setCurrentWord(null);
     updateHighScore(score);
-    console.log('gameover score:', finalScoreRef.current);
     saveHighScoreToStorage(score); // ここでハイスコアを保存
     playGameClearSound();
   }, [playGameClearSound, score, updateHighScore, saveHighScoreToStorage]);
@@ -299,11 +298,9 @@ const TypingGame: React.FC = () => {
       if (stage === 2) {
         setGameState('clear');
         updateHighScore(score);
-        console.log('all clear score:', finalScoreRef.current);
         saveHighScoreToStorage(score); // ここでハイスコアを保存
         playGameClearSound();
       } else {
-        console.log('stage clear score:', finalScoreRef.current);
         setGameState('stageClear');
         playStageClearSound();
       }
@@ -321,7 +318,6 @@ const TypingGame: React.FC = () => {
   ]);
 
   const nextStage = useCallback(() => {
-    console.log('next 1 score:', finalScoreRef.current);
     setIsTransitioning(true);
     setTimeout(() => {
       setStage((prev) => prev + 1);
@@ -331,7 +327,6 @@ const TypingGame: React.FC = () => {
       setCurrentWord(null);
       setIsTransitioning(false);
     }, 500);
-    console.log('next 2 score:', finalScoreRef.current);
   }, []);
 
   const createNewWord = useCallback(() => {
@@ -596,6 +591,7 @@ const TypingGame: React.FC = () => {
 
                 {finalScoreRef.current > previousHighScoreRef.current && (
                   <div className="relative mb-3">
+                    {saveHighScoreToStorage(score)}
                     <p className="text-base sm:text-lg md:text-xl text-white animate-pulse">
                       🏆 新記録達成！ 🏆
                     </p>
