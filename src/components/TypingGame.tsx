@@ -295,7 +295,7 @@ const TypingGame: React.FC = () => {
 
   const checkStageClear = useCallback(() => {
     if (questionCount >= 19) {
-      if (stage === 2) {
+      if (stage === 10) {
         setGameState('clear');
         updateHighScore(score);
         saveHighScoreToStorage(score); // ここでハイスコアを保存
