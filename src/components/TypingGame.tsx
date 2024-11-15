@@ -458,7 +458,7 @@ const TypingGame: React.FC = () => {
       <div className="w-full max-w-2xl p-8 bg-gradient-to-b from-blue-100 to-blue-200 shadow-xl rounded-lg transition-transform duration-300 hover:scale-[1.02]">
         <div className="text-center mb-4">
           <div className="flex justify-between items-center mb-2">
-            <h1 className="text-2xl font-bold">タイピング太郎</h1>
+            <h1 className="text-2xl font-bold">タイピング太郎 V03</h1>
             <button
               onClick={() => setIsMuted(!isMuted)}
               className="p-2 rounded-full hover:bg-gray-200 transition-transform hover:scale-110"
